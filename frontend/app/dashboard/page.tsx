@@ -1,19 +1,12 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { getAuthTokenId } from "@/app/utils/cookie";
 import DealList from "@/app/components/DealList";
 import Notification from "@/app/components/Notification";
-import {
-  createDeal,
-  enrollInDeal,
-  getDeals,
-  updateDeal,
-} from "@/app/services/dealService";
-import { getDeals } from "@/app/services/dealService";
+import { createDeal, getDeals, updateDeal } from "@/app/services/dealService";
 import { Deal } from "@/app/types/deal";
+import { getAuthTokenId } from "@/app/utils/cookie";
 import { dealInitialValues } from "@/components/DealForm/constants";
 import { FC, useEffect, useState } from "react";
 import AbstractForm from "../components/AbstractForm";
@@ -38,10 +31,10 @@ const DashboardPage: FC = () => {
     const tokenId = getAuthTokenId();
 
     if (!tokenId) {
-      setNotificationMessage('Session expired. Please log in again.');
+      setNotificationMessage("Session expired. Please log in again.");
       setShowNotification(true);
       setTimeout(() => {
-        router.push('/');
+        router.push("/");
       }, 1500);
       return;
     }
@@ -51,8 +44,10 @@ const DashboardPage: FC = () => {
         const fetchedDeals = await getDeals();
         setDeals(fetchedDeals);
       } catch (error) {
-        console.error('Failed to fetch deals:', error);
-        setNotificationMessage('Failed to fetch deals. Please try again later.');
+        console.error("Failed to fetch deals:", error);
+        setNotificationMessage(
+          "Failed to fetch deals. Please try again later."
+        );
         setShowNotification(true);
         setTimeout(() => {
           setShowNotification(false);
@@ -90,14 +85,17 @@ const DashboardPage: FC = () => {
           }}
         >
           {showNotification && <Notification message={notificationMessage} />}
-      <h1 className="text-3xl font-bold mb-8">Available Deals</h1>
-      <DealList deals={deals} onShowNotification={(message) => {
-        setNotificationMessage(message);
-        setShowNotification(true);
-        setTimeout(() => {
-          setShowNotification(false);
-        }, 3000);
-      }} />
+          <h1 className="text-3xl font-bold mb-8">Available Deals</h1>
+          <DealList
+            deals={deals}
+            onShowNotification={(message) => {
+              setNotificationMessage(message);
+              setShowNotification(true);
+              setTimeout(() => {
+                setShowNotification(false);
+              }, 3000);
+            }}
+          />
         </UpdateDealContext.Provider>
       </div>
       <div className="relative [flex:_1_1_33.3%]">
