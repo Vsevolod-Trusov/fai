@@ -1,86 +1,49 @@
 <html lang='en'>
-<head>
+  <head>
     <link rel='preconnect' href='https://fonts.googleapis.com' />
     <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
     <link
-        href='https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'
-        rel='stylesheet'
+      href='https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap'
+      rel='stylesheet'
     />
     <style>
-        * {
-            font-family: "Open Sans", sans-serif;
-            margin: 0;
-        }
-        .wrapper {
-            background-color: #fff;
-            border-radius: 4px;
-            max-width: 550px;
-            width: 100%;
-            margin: 50px 0;
-            padding: 30px 50px;
-            box-sizing: border-box;
-        }
-        .wrapper-td {
-            padding: 0 10px;
-        }
-        .logo-wrap {
-            text-align: center;
-            padding: 16px 0;
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: center;
-        }
-        .logo-wrap img {
-            max-height: 35px;
-            max-width: 35px;
-            margin-right: 8px;
-        }
-        .logo-wrap h1 {
-            margin: 0;
-        }
-        .text-body {
-            line-height: 25px;
-        }
-        .text-wrap {
-            text-align: center;
-            margin: 40px 0;
-        }
-        .text-welcome {
-            font-weight: bold;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-        .link-copy {
-            opacity: 0.6;
-            font-size: 14px;
-            line-height: 24px;
-        }
+      * { font-family: "Open Sans", sans-serif; margin: 0; } .wrapper {
+      background-color: #fff; border-radius: 4px; max-width: 550px; width: 100%;
+      margin: 50px 0; padding: 30px 50px; box-sizing: border-box; } .wrapper-td
+      { padding: 0 10px; } .logo-wrap { text-align: center; padding: 16px 0;
+      margin-bottom: 30px; display: flex; justify-content: center; } .logo-wrap
+      img { max-height: 35px; max-width: 35px; margin-right: 8px; } .logo-wrap
+      h1 { margin: 0; } .text-body { line-height: 25px; } .text-wrap {
+      text-align: center; margin: 40px 0; } .text-welcome { font-weight: bold;
+      font-size: 18px; margin-bottom: 30px; } .link-copy { opacity: 0.6;
+      font-size: 14px; line-height: 24px; }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <table
-        width='100%'
-        style='background-color: #eee'
-        border='0'
-        cellspacing='0'
-        cellpadding='0'
+      width='100%'
+      style='background-color: #eee'
+      border='0'
+      cellspacing='0'
+      cellpadding='0'
     >
-        <tr>
-            <td align='center' class='wrapper-td'>
-                <div class='wrapper'>
-                    <div class='logo-wrap'>
-                        <h1>Enroll</h1>
-                        <h1>{{title}}</h1>
-                    </div>
-                    <div class='text-wrap'>
-                        <p class='text-body text-welcome'>Welcome! You're invited to enroll in the following deal:</p>
-                        <h2>{{dealTitle}}</h2>
-                        <p class='text-body'>{{dealDescription}}</p>
-                        <p class='link-copy'>If you have any questions, feel free to contact us.</p>
-                    </div>
-                </div>
-            </td>
-        </tr>
+      <tr>
+        <td align='center' class='wrapper-td'>
+          <div class='wrapper'>
+            <div class='logo-wrap'>
+              <h1>Enroll</h1>
+            </div>
+            <div class='text-wrap'>
+              <p class='text-body text-welcome'>Welcome! You're invited to
+                enroll in the following deal</p>
+              <h2>{{data.dealTitle}}</h2>
+              <p class='text-body'>{{data.dealDescription}}</p>
+              <p class='link-copy'>If you have any questions, feel free to
+                contact us.</p>
+            </div>
+          </div>
+        </td>
+      </tr>
     </table>
-</body>
+  </body>
 </html>

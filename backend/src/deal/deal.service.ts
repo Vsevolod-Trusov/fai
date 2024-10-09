@@ -19,11 +19,12 @@ export class DealService extends FirebaseService {
 
   async enrollDeal(enrollDto: EnrollDto): Promise<{ status: string }> {
     try {
+      console.log(enrollDto);
       const { email } = enrollDto;
 
       this.mailService.sendEmail({
         to: email,
-        data: enrollDto,
+        data: { ...enrollDto },
         subject: 'Deal Enrollment Confirmation',
       });
 

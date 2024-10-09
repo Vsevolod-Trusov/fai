@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import * as nodemailer from 'nodemailer';
-import * as handlebars from 'handlebars';
-import * as path from 'path';
-import * as fs from 'fs';
 import { EnrollDto } from 'deal/dto/deal.dto';
+import * as fs from 'fs';
+import * as handlebars from 'handlebars';
+import * as nodemailer from 'nodemailer';
+import * as path from 'path';
 
 export type EmailConfig = {
   host: string;
