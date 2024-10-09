@@ -10,12 +10,13 @@ interface DealCardProps {
 }
 
 const DealCard: FC<DealCardProps> = ({ deal, onShowNotification }) => {
+  let dealDate: string;
+  const { selectDeal } = useContext(UpdateDealContext);
+
   const handleEnroll = async () => {
     try {
       const user = auth.currentUser;
 
-      const { selectDeal } = useContext(UpdateDealContext);
-      let dealDate;
       if (deal.date instanceof Date) {
         dealDate = deal.date.toLocaleDateString();
       } else if (
@@ -69,7 +70,6 @@ const DealCard: FC<DealCardProps> = ({ deal, onShowNotification }) => {
         </button>
         <button
           onClick={() => {
-            console.log(deal);
             selectDeal({
               id: deal.id,
               initialValues: {
