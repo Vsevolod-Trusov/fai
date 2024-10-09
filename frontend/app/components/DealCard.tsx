@@ -1,5 +1,6 @@
 import { Deal } from "@/app/types/deal";
-import React from "react";
+import { FC, useContext } from "react";
+import { UpdateDealContext } from "../dashboard/context";
 import { enrollInDealWithEmail } from "@/app/services/dealService";
 import { auth } from "@/lib/firebase";
 
@@ -8,11 +9,28 @@ interface DealCardProps {
   onShowNotification: (message: string) => void;
 }
 
-const DealCard: React.FC<DealCardProps> = ({ deal, onShowNotification }) => {
+const DealCard: FC<DealCardProps> = ({ deal, onShowNotification }) => {
   const handleEnroll = async () => {
     try {
       const user = auth.currentUser;
 
+  const { selectDeal } = useContext(UpdateDealContext);
+
+  if (deal.date instanceof Date) {
+    dealDate = deal.date.toLocaleDateString();
+  } else if (
+    deal.date &&
+    typeof deal.date === "object" &&
+    "_seconds" in deal.date
+  ) {
+    const { _seconds } = deal.date as {
+      _seconds: number;
+      _nanoseconds: number;
+    };
+    dealDate = new Date(_seconds * 1000).toLocaleDateString();
+  } else {
+    dealDate = "Invalid Date";
+  }
       if (!user) {
         onShowNotification("You need to be logged in to enroll in a deal.");
         return;
@@ -41,12 +59,32 @@ const DealCard: React.FC<DealCardProps> = ({ deal, onShowNotification }) => {
         Description: {deal?.description || "EMPTY"}
       </p>
       <p className="text-gray-600 mb-2">Status: {deal?.status || "EMPTY"}</p>
-      <button
+      <p className="text-gray-600 mb-2">Date: {dealDate}</p>
+      <div className="flex justify-between">
+        <button
         onClick={handleEnroll}
         className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
       >
         Enroll
       </button>
+        <button
+          onClick={() => {
+            console.log(deal);
+            selectDeal({
+              id: deal.id,
+              initialValues: {
+                id: deal.id,
+                title: deal.title,
+                description: deal.description,
+              },
+            });
+          }}
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+        >
+          Edit
+        </button>
+      </div>
+      
     </div>
   );
 };

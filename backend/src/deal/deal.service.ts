@@ -71,7 +71,10 @@ export class DealService extends FirebaseService {
     try {
       const dealSnapshot = await this.firestore.collection('deals').get();
 
-      return dealSnapshot.docs.map((doc) => doc.data()) as Deal[];
+      return dealSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      })) as Deal[];
     } catch (error) {
       throw new Error(`Failed to get all deals: ${error.message}`);
     }
