@@ -1,4 +1,4 @@
-import { enrollInDealWithEmail } from "@/app/services/dealService";
+import { enrollInDealWithEmail, deleteDeal } from "@/app/services/dealService";
 import { Deal } from "@/app/types/deal";
 import { auth } from "@/lib/firebase";
 import { FC, useContext } from "react";
@@ -7,31 +7,39 @@ import { UpdateDealContext } from "../dashboard/context";
 interface DealCardProps {
   deal: Deal;
   onShowNotification: (message: string) => void;
+  onDeleteDeal: (dealId: string) => void;
+  isMerchant: boolean;
 }
 
-const DealCard: FC<DealCardProps> = ({ deal, onShowNotification }) => {
+const DealCard: FC<DealCardProps> = ({
+  deal,
+  onShowNotification,
+  onDeleteDeal,
+  isMerchant,
+}) => {
   let dealDate: string;
   const { selectDeal } = useContext(UpdateDealContext);
+
+  if (deal.date instanceof Date) {
+    dealDate = deal.date.toLocaleDateString();
+  } else if (
+    deal.date &&
+    typeof deal.date === "object" &&
+    "_seconds" in deal.date
+  ) {
+    const { _seconds } = deal.date as {
+      _seconds: number;
+      _nanoseconds: number;
+    };
+    dealDate = new Date(_seconds * 1000).toLocaleDateString();
+  } else {
+    dealDate = "Invalid Date";
+  }
 
   const handleEnroll = async () => {
     try {
       const user = auth.currentUser;
 
-      if (deal.date instanceof Date) {
-        dealDate = deal.date.toLocaleDateString();
-      } else if (
-        deal.date &&
-        typeof deal.date === "object" &&
-        "_seconds" in deal.date
-      ) {
-        const { _seconds } = deal.date as {
-          _seconds: number;
-          _nanoseconds: number;
-        };
-        dealDate = new Date(_seconds * 1000).toLocaleDateString();
-      } else {
-        dealDate = "Invalid Date";
-      }
       if (!user) {
         onShowNotification("You need to be logged in to enroll in a deal.");
         return;
@@ -45,11 +53,21 @@ const DealCard: FC<DealCardProps> = ({ deal, onShowNotification }) => {
       }
 
       await enrollInDealWithEmail(email, deal.id, deal.title, deal.description);
-
       onShowNotification("Successfully enrolled in the deal!");
     } catch (error) {
       console.error("Failed to enroll in the deal:", error);
       onShowNotification("Failed to enroll in the deal. Please try again.");
+    }
+  };
+
+  const handleDiscontinue = async () => {
+    try {
+      await deleteDeal(deal.id);
+      onShowNotification("Deal discontinued successfully.");
+      onDeleteDeal(deal.id);
+    } catch (error) {
+      console.error("Failed to discontinue the deal:", error);
+      onShowNotification("Failed to discontinue the deal. Please try again.");
     }
   };
 
@@ -68,21 +86,31 @@ const DealCard: FC<DealCardProps> = ({ deal, onShowNotification }) => {
         >
           Enroll
         </button>
-        <button
-          onClick={() => {
-            selectDeal({
-              id: deal.id,
-              initialValues: {
-                id: deal.id,
-                title: deal.title,
-                description: deal.description,
-              },
-            });
-          }}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-        >
-          Edit
-        </button>
+        {isMerchant && (
+          <>
+            <button
+              onClick={() => {
+                selectDeal({
+                  id: deal.id,
+                  initialValues: {
+                    id: deal.id,
+                    title: deal.title,
+                    description: deal.description,
+                  },
+                });
+              }}
+              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDiscontinue}
+              className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 transition duration-200"
+            >
+              Discontinue
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

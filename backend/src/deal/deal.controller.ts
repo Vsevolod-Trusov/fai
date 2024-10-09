@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 
 import { Role } from 'lib/auth/decorators/role.decorator';
 import { ROLE_NAMES } from 'lib/constants';
@@ -33,5 +42,10 @@ export class DealController {
   @Post('/enroll')
   async enrollDeal(@Body() enrollDto: EnrollDto) {
     return this.dealService.enrollDeal(enrollDto);
+  }
+
+  @Delete('/delete/:id')
+  deleteDeal(@Param('id') id: string) {
+    return this.dealService.delete(id);
   }
 }

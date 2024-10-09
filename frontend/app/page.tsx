@@ -14,6 +14,9 @@ export default function HomePage() {
         <Link href="/auth/register">
           <button className="bg-green-500 text-white px-4 py-2 rounded">Register</button>
         </Link>
+        <Link href="/dashboard">
+          <button className="bg-orange-500 text-white px-4 py-2 rounded">Dashboard</button>
+        </Link>
       </div>
     </div>
   );

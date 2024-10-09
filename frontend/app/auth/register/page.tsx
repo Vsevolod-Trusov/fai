@@ -37,7 +37,7 @@ const RegisterPage: React.FC = () => {
 
       setTimeout(() => {
         setShowNotification(false);
-        router.push('/login');
+        router.push('/auth/login');
       }, 1500);
     } catch (error) {
       actions.setSubmitting(false);

@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { DEALS_ENDPOINTS } from "@/app/constants/api";
 import { Deal } from "@/app/types/deal";
-import { IDeal } from "@/components";
+import { IDeal } from "@/app/components/DealForm/types";
 
 export const getDeals = async (): Promise<Deal[]> => {
   try {
@@ -56,5 +56,16 @@ export const updateDeal = async (dealData: IDeal): Promise<void> => {
   } catch (error) {
     console.log(error);
     throw new Error("Failed to enroll in deal");
+  }
+};
+
+export const deleteDeal = async (dealId: string): Promise<void> => {
+  try {
+    await axios.delete(`${DEALS_ENDPOINTS.DELETE}/${dealId}`, {
+      withCredentials: true,
+    });
+  } catch (error) {
+    console.error('Error deleting deal:', error);
+    throw new Error('Failed to delete deal');
   }
 };

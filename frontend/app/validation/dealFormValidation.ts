@@ -1,8 +1,9 @@
-import { IDeal } from "@/components";
+import { IDeal } from "@/app/components/DealForm/types";
 import * as Yup from "yup";
 
 export const dealValidationSchema: Yup.ObjectSchema<IDeal> = Yup.object().shape(
   {
+    id: Yup.string().required(),
     title: Yup.string()
       .max(20, "Title max size is 20 characters")
       .required("Title is required"),

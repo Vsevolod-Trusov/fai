@@ -98,8 +98,7 @@ export class DealService extends FirebaseService {
 
   async delete(uid: string): Promise<string> {
     try {
-      this.firestore.collection('deals').doc(uid).delete();
-
+      await this.firestore.collection('deals').doc(uid).delete();
       return `Deal deleted by id ${uid}`;
     } catch (error) {
       throw new Error(`Failed to delete deal ${uid}: ${error.message}`);
