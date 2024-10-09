@@ -15,17 +15,18 @@ export const getDeals = async (): Promise<Deal[]> => {
     }
 };
 
-export const enrollInDeal = async (dealId: string): Promise<void> => {
-    try {
-        await axios.post(
-            `${DEALS_ENDPOINTS.ENROLL}/${dealId}`,
-            {},
-            {
-                withCredentials: true,
-            }
-        );
-    } catch (error) {
-        console.log(error);
-        throw new Error('Failed to enroll in deal');
-    }
+export const enrollInDealWithEmail = async (
+    email: string,
+    dealId: string,
+    dealTitle: string,
+    dealDescription: string
+  ): Promise<void> => {
+    await axios.post(`${DEALS_ENDPOINTS.ENROLL}`, {
+      email,
+      dealId,
+      dealTitle,
+      dealDescription,
+    }, {
+      withCredentials: true,
+    });
 };

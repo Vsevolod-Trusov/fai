@@ -1,17 +1,17 @@
-import { Deal } from "@/app/types/deal";
 import React from "react";
+import { Deal } from "@/app/types/deal";
 import DealCard from "./DealCard";
 
 interface DealListProps {
   deals: Deal[];
-  onEnroll: (dealId: string) => void;
+  onShowNotification: (message: string) => void;
 }
 
-const DealList: React.FC<DealListProps> = ({ deals, onEnroll }) => {
+const DealList: React.FC<DealListProps> = ({ deals, onShowNotification }) => {
   return (
     <div className="flex flex-col items-center w-full">
       {deals.map((deal) => (
-        <DealCard key={deal.id} deal={deal} onEnroll={onEnroll} />
+        <DealCard key={deal.id} deal={deal} onShowNotification={onShowNotification} />
       ))}
     </div>
   );

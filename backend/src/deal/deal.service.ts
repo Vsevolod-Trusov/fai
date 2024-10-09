@@ -3,7 +3,7 @@ import { app } from 'firebase-admin';
 
 import { FirebaseService } from '../firebase/firebase.service';
 import { EmailService } from '../mail/mail.service';
-import { Deal, DealDto, UpdateDto } from './dto/deal.dto';
+import { Deal, DealDto, EnrollDto, UpdateDto } from './dto/deal.dto';
 
 @Injectable()
 export class DealService extends FirebaseService {
@@ -17,12 +17,14 @@ export class DealService extends FirebaseService {
     this.firestore = this.firebaseApp.firestore();
   }
 
-  async enrollDeal(): Promise<{ status: string }> {
+  async enrollDeal(enrollDto: EnrollDto): Promise<{ status: string }> {
     try {
+      const { email } = enrollDto;
+
       this.mailService.sendEmail({
-        to: 'test@gmail.com',
-        text: 'some deal info',
-        subject: 'Deal Info',
+        to: email,
+        data: enrollDto,
+        subject: 'Deal Enrollment Confirmation',
       });
 
       return { status: 'sended' };

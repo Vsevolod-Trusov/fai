@@ -3,6 +3,7 @@ import * as nodemailer from 'nodemailer';
 import * as handlebars from 'handlebars';
 import * as path from 'path';
 import * as fs from 'fs';
+import { EnrollDto } from 'deal/dto/deal.dto';
 
 export type EmailConfig = {
   host: string;
@@ -51,15 +52,15 @@ export class EmailService {
 
   async sendEmail({
     to,
-    text,
+    data,
     subject,
   }: {
     to: string;
-    text: string;
+    data: EnrollDto;
     subject: string;
   }) {
     const html = this.confirmationTemplate({
-      data: text,
+      data: data,
     });
 
     await this.transporter.sendMail({

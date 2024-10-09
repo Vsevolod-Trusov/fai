@@ -9,5 +9,12 @@ export class Deal {
   date: Date;
 }
 
+export class EnrollDto {
+  email: string;
+  dealId: string;
+  dealTitle: string;
+  dealDescription: string;
+}
+
 export class DealDto extends Deal {}
 export class UpdateDto extends PartialType(DealDto) {}
