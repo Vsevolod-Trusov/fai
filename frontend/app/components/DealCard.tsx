@@ -1,5 +1,6 @@
 import { Deal } from "@/app/types/deal";
-import React from "react";
+import React, { useContext } from "react";
+import { UpdateDealContext } from "../dashboard/context";
 
 interface DealCardProps {
   deal: Deal;
@@ -9,10 +10,19 @@ interface DealCardProps {
 const DealCard: React.FC<DealCardProps> = ({ deal, onEnroll }) => {
   let dealDate: string;
 
+  const { selectDeal } = useContext(UpdateDealContext);
+
   if (deal.date instanceof Date) {
     dealDate = deal.date.toLocaleDateString();
-  } else if (deal.date && typeof deal.date === 'object' && '_seconds' in deal.date) {
-    const { _seconds } = deal.date as { _seconds: number; _nanoseconds: number };
+  } else if (
+    deal.date &&
+    typeof deal.date === "object" &&
+    "_seconds" in deal.date
+  ) {
+    const { _seconds } = deal.date as {
+      _seconds: number;
+      _nanoseconds: number;
+    };
     dealDate = new Date(_seconds * 1000).toLocaleDateString();
   } else {
     dealDate = "Invalid Date";
@@ -26,12 +36,30 @@ const DealCard: React.FC<DealCardProps> = ({ deal, onEnroll }) => {
       </p>
       <p className="text-gray-600 mb-2">Status: {deal?.status || "EMPTY"}</p>
       <p className="text-gray-600 mb-2">Date: {dealDate}</p>
-      <button
-        onClick={() => onEnroll(deal.id)}
-        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
-      >
-        Enroll
-      </button>
+      <div className="flex justify-between">
+        <button
+          onClick={() => onEnroll(deal.id)}
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+        >
+          Enroll
+        </button>
+        <button
+          onClick={() => {
+            console.log(deal);
+            selectDeal({
+              id: deal.id,
+              initialValues: {
+                id: deal.id,
+                title: deal.title,
+                description: deal.description,
+              },
+            });
+          }}
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-200"
+        >
+          Edit
+        </button>
+      </div>
     </div>
   );
 };

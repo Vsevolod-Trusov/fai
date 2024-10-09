@@ -1,6 +1,5 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage, FormikHelpers } from 'formik';
-import { ObjectSchema } from 'yup';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import { ObjectSchema } from "yup";
 
 interface FieldConfig<T> {
   name: keyof T;
@@ -31,16 +30,21 @@ const AbstractForm = <T extends object>({
       onSubmit={onSubmit}
     >
       {({ isSubmitting, status }) => (
-        <Form className="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <Form className="bg-white p-6 rounded shadow-md w-full md:max-w-md max-w-sm">
           {status?.generalError && (
-            <div className="text-red-500 text-sm mb-4">{status.generalError}</div>
+            <div className="text-red-500 text-sm mb-4">
+              {status.generalError}
+            </div>
           )}
           {fields.map((field) => (
             <div className="mb-4" key={String(field.name)}>
-              <label className="block text-gray-700 mb-1" htmlFor={String(field.name)}>
+              <label
+                className="block text-gray-700 mb-1"
+                htmlFor={String(field.name)}
+              >
                 {field.label}
               </label>
-              {field.type === 'select' && field.options ? (
+              {field.type === "select" && field.options ? (
                 <Field
                   as="select"
                   id={String(field.name)}
