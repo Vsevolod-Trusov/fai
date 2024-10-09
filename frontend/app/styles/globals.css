@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+@layer utilities {
+    @keyframes slide-down {
+      0% {
+        transform: translateY(-100%);
+      }
+      10% {
+        transform: translateY(0);
+      }
+      90% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-100%);
+      }
+    }
+  
+    .animate-slide-down {
+      animation: slide-down 3s ease-in-out forwards;
+    }
+  }
